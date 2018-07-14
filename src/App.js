@@ -3,12 +3,14 @@ import logo from './logo.svg';
 import './App.css';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Columns } from 'react-bulma-components';
+import NavBar from './components/NavBar';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Columns>
+        <NavBar/>
+        {/* <Columns>
             <Columns.Column>
               First Column
             </Columns.Column>
@@ -21,7 +23,7 @@ class App extends Component {
             <Columns.Column>
               Fourth Column
             </Columns.Column>
-          </Columns>
+          </Columns> */}
       </div>
     );
   }
