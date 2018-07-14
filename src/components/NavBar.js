@@ -15,37 +15,27 @@ export default class NavBar extends Component{
                     <Navbar.Container>
                         <Navbar.Item dropdown hoverable>
                             <Navbar.Link>
-                                Docs
+                                About
                             </Navbar.Link>
                             <Navbar.Dropdown boxed>
-                            <Navbar.Item href="#">
-                                Home
-                            </Navbar.Item>
-                            <Navbar.Item href="#">
-                                List
-                            </Navbar.Item>
-                            <Navbar.Item href="#">
-                                Another Item
-                            </Navbar.Item>
-                            <Navbar.Divider/>
-                            <Navbar.Item active href="#">
-                                Active
-                            </Navbar.Item>
+                                <Navbar.Item href="#">
+                                    Vision
+                                </Navbar.Item>
                             </Navbar.Dropdown>
                         </Navbar.Item>
-                        <Navbar.Item href="#">
+                        {/* <Navbar.Item href="#">
                             Second
-                        </Navbar.Item>
+                        </Navbar.Item> */}
                     </Navbar.Container>
                     <Navbar.Container position="end">
                         <Navbar.Item dropdown hoverable>
                             <Navbar.Link>
-                                Other Menu
+                                Funtions
                             </Navbar.Link>
                             <Navbar.Dropdown right boxed>
-                            <Navbar.Item href="#">
-                                this is aligned to the right
-                            </Navbar.Item>
+                                <Navbar.Item href="#">
+                                    Placeholder
+                                </Navbar.Item>
                             </Navbar.Dropdown>
                         </Navbar.Item>
                     </Navbar.Container>
