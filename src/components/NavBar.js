@@ -7,12 +7,7 @@ export default class NavBar extends Component{
                 <Navbar>
                 <Navbar.Brand>
                     <Navbar.Item href="#">
-                        <img
-                        src="https://bulma.io/images/bulma-logo.png"
-                        alt="Bulma: a modern CSS framework based on Flexbox"
-                        width="112"
-                        height="28"
-                        />
+                        <a href="/">JADE Podium</a>
                     </Navbar.Item>
                     <Navbar.Burger/>
                 </Navbar.Brand>

@@ -4,7 +4,11 @@ import './App.css';
 import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Columns } from 'react-bulma-components';
 import NavBar from './components/NavBar';
+import Typography from 'typography';
+import funstonTheme from 'typography-theme-funston';
 
+const typography = new Typography(funstonTheme);
+typography.injectStyles();
 class App extends Component {
   render() {
     return (
