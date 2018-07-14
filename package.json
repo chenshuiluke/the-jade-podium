@@ -22,7 +22,6 @@
     "typography-theme-funston": "^0.15.10"
   },
   "scripts": {
-    "dev": "NODE_ENV=development node server/bootstrap.js",
     "build-css": "node-sass-chokidar src/ -o src/",
     "watch-css": "npm run build-css && node-sass-chokidar src/ -o src/ --watch --recursive",
     "start": "react-scripts start",

@@ -10,8 +10,8 @@ export default class NavBar extends Component{
             <div>
                 <Navbar>
                 <Navbar.Brand>
-                    <Navbar.Item href="#">
-                        <Link to="/" className="navbar-link">
+                    <Navbar.Item>
+                        <Link to="/">
                             JADE Podium
                         </Link>
                     </Navbar.Item>
