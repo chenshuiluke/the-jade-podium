@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
 import { Navbar } from 'react-bulma-components';
+
+import {
+    Link
+  } from 'react-router-dom';
 export default class NavBar extends Component{
     render(){
         return (
@@ -7,16 +11,18 @@ export default class NavBar extends Component{
                 <Navbar>
                 <Navbar.Brand>
                     <Navbar.Item href="#">
-                        <a href="/">JADE Podium</a>
+                        <Link to="/" className="navbar-link">
+                            JADE Podium
+                        </Link>
                     </Navbar.Item>
                     <Navbar.Burger/>
                 </Navbar.Brand>
                 <Navbar.Menu>
                     <Navbar.Container>
                         <Navbar.Item dropdown hoverable>
-                            <Navbar.Link>
+                            <Link to="about" className="navbar-link">
                                 About
-                            </Navbar.Link>
+                            </Link>
                             <Navbar.Dropdown boxed>
                                 <Navbar.Item href="#">
                                     Vision
