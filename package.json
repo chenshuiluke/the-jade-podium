@@ -12,6 +12,8 @@
     "react-bulma-components": "^1.5.0",
     "react-dom": "^16.4.1",
     "react-granim": "^1.1.0",
+    "react-router": "^4.3.1",
+    "react-router-dom": "^4.3.1",
     "react-scripts": "1.1.4",
     "react-typography": "^0.16.13",
     "typeface-cabin-condensed": "0.0.54",
