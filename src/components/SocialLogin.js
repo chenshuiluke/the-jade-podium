@@ -6,17 +6,17 @@ export default class SocialLogin extends Component{
         const divStyle = {
             background: `white`,
             padding: 10,
-            maxWidth: 300,
+            maxWidth: 90,
             margin: '0px auto',
             borderRadius: 100
         };
-        
+        console.log(process.env.REACT_APP_API_DOMAIN);
         return (
             <div style={divStyle}>
-                <SocialIcon network="facebook" />
-                <SocialIcon network="twitter" />
+                <SocialIcon network="facebook" url={`${process.env.REACT_APP_API_DOMAIN}/login/facebook`} />
+                {/* <SocialIcon network="twitter" />
                 <SocialIcon network="google" />
-                <SocialIcon network="linkedin" />
+                <SocialIcon network="linkedin" /> */}
             </div>
         )
     }
