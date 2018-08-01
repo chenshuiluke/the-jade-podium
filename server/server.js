@@ -2,7 +2,7 @@ require('dotenv').config();
 var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
-
+const models = require('./models/');
 
 // Configure the Facebook strategy for use by Passport.
 //
@@ -14,7 +14,8 @@ var Strategy = require('passport-facebook').Strategy;
 passport.use(new Strategy({
     clientID: process.env.FACEBOOK_CLIENT_ID,
     clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
-    callbackURL: process.env.REACT_APP_API_DOMAIN + '/login/facebook/return'
+    callbackURL: process.env.REACT_APP_API_DOMAIN + '/login/facebook/return',
+    profileFields: ['id', 'emails', 'name']
   },
   function(accessToken, refreshToken, profile, cb) {
     // In this example, the user's Facebook profile is supplied as the user
@@ -22,7 +23,31 @@ passport.use(new Strategy({
     // be associated with a user record in the application's database, which
     // allows for account linking and authentication with other identity
     // providers.
-    return cb(null, profile);
+    return models.sequelize.transaction({autocommit: false}, function(user_transaction){
+      if(profile.emails.length > 0){
+        return models.user.findOrCreate({
+          where: {
+            email: profile.emails[0].value
+          },
+          transaction: user_transaction
+        })
+        .spread(function(user, created){
+          models.auth.findOrCreate({
+            where: {
+              user_id: user.id,
+              provider_name: profile.provider,
+              provider_user_id: profile.id
+            }
+          })
+          .spread(function(auth, created){
+            return cb(null, user);
+          })
+        })
+      }
+
+    })
+    console.log("Facebook response:", profile);
+    
   }));
 
 
@@ -72,12 +97,14 @@ app.use(passport.session());
 //   });
 
 app.get('/login/facebook',
-  passport.authenticate('facebook'));
+  passport.authenticate('facebook', {scope : ['email'] }));
 
 app.get('/login/facebook/return', 
-  passport.authenticate('facebook', { failureRedirect: process.env.WEBAPP_DOMAIN }),
+  passport.authenticate('facebook', { failureRedirect: process.env.WEBAPP_DOMAIN}),
   function(req, res) {
     res.redirect(process.env.WEBAPP_DOMAIN);
   });
 
-app.listen(3001);
+app.listen(3001, function(){
+  console.log("Listening on port 3000");
+});
