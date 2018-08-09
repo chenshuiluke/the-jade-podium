@@ -3,6 +3,7 @@ var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
 const models = require('./models/');
+var cors = require('cors')
 
 // Configure the Facebook strategy for use by Passport.
 //
@@ -46,7 +47,7 @@ passport.use(new Strategy({
       }
 
     })
-    console.log("Facebook response:", profile);
+    //console.log("Facebook response:", profile);
     
   }));
 
@@ -72,6 +73,13 @@ passport.deserializeUser(function(obj, cb) {
 // Create a new Express application.
 var app = express();
 
+var corsOptions = {
+  origin: process.env.WEBAPP_DOMAIN,
+  credentials: true,
+  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+app.use(cors(corsOptions));
 // Use application-level middleware for common functionality, including
 // logging, parsing, and session handling.
 app.use(require('morgan')('combined'));
@@ -95,16 +103,31 @@ app.use(passport.session());
 //   function(req, res){
 //     res.render('login');
 //   });
-
+app.get('/api/user/logged-in', function(req, res){
+  var result = {
+    success: true,
+    message: "User is logged in",
+    data: {}
+  }
+  if(req.user){
+    return res.json(result);
+  }
+  result.success = false;
+  result.message = "User not logged in";
+  return res.json(result);
+});
 app.get('/login/facebook',
   passport.authenticate('facebook', {scope : ['email'] }));
 
 app.get('/login/facebook/return', 
   passport.authenticate('facebook', { failureRedirect: process.env.WEBAPP_DOMAIN}),
   function(req, res) {
+    console.log("start req");
+    console.log(req);
+    console.log("end req");
     res.redirect(process.env.WEBAPP_DOMAIN);
   });
 
 app.listen(3001, function(){
-  console.log("Listening on port 3000");
+  console.log("Listening on port 3001");
 });
