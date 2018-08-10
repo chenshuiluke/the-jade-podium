@@ -8,7 +8,8 @@ export default class SocialLogin extends Component{
             padding: 10,
             maxWidth: 90,
             margin: '0px auto',
-            borderRadius: 100
+            borderRadius: 100,
+            display: 'table'
         };
         console.log(process.env.REACT_APP_API_DOMAIN);
         return (
