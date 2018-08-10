@@ -1,19 +1,20 @@
 import React, { Component } from 'react';
-import './App.css';
-import 'react-bulma-components/dist/react-bulma-components.min.css';
-import { Columns } from 'react-bulma-components';
+// import './App.css';
+//import 'react-bulma-components/dist/react-bulma-components.min.css';
+//import { Columns } from 'react-bulma-components';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import About from './components/About';
 import Typography from 'typography';
 import funstonTheme from 'typography-theme-funston';
+import { Button } from 'styled-bootstrap-components';
 //import Granim from 'react-granim';
 import logo from './assets/images/logo.png';
-import {
-  BrowserRouter as Router,
-  Route,
-  Link
-} from 'react-router-dom';
+// import {
+//   BrowserRouter as Router,
+//   Route,
+//   Link
+// } from 'react-router-dom';
 
 const typography = new Typography(funstonTheme);
 
@@ -47,9 +48,7 @@ class App extends Component {
     return (   
       <div className="App">
         <NavBar/>
-        {/* https://tylermcginnis.com/react-router-pass-props-to-components/ */}
-        <Route exact path="/" component={() => { return <Home logged_in={this.state.logged_in}/>} }/>
-        <Route exact path="/about" component={About}/>
+        <Button>Hi</Button>,
       </div>
     );
   }
