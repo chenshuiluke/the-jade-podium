@@ -5,21 +5,9 @@ import React, { Component } from 'react';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
 import About from './components/About';
-import Typography from 'typography';
-import funstonTheme from 'typography-theme-funston';
 import { Button } from 'styled-bootstrap-components';
-//import Granim from 'react-granim';
 import logo from './assets/images/logo.png';
-// import {
-//   BrowserRouter as Router,
-//   Route,
-//   Link
-// } from 'react-router-dom';
-
-const typography = new Typography(funstonTheme);
-
-
-typography.injectStyles();
+import Page from '../layouts/main';
 class App extends Component {
   state = {
     logged_in: false
@@ -34,7 +22,7 @@ class App extends Component {
         if(json_response.success){
           this.setState({logged_in: true});
           localStorage.setItem('is_logged_in', 'true');
-
+          console.log(this.state);
         }
         else{
           localStorage.removeItem('is_logged_in');
@@ -46,10 +34,9 @@ class App extends Component {
   }
   render() {
     return (   
-      <div className="App">
-        <NavBar/>
-        <Button>Hi</Button>,
-      </div>
+      <Page className="App">
+        <Home logged_in={this.state.logged_in}/>
+      </Page>
     );
   }
 }

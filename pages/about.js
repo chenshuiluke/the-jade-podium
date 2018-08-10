@@ -1,5 +1,8 @@
+import Page from '../layouts/main';
 export default function(){
     return(
-        <h1>About</h1>
+        <Page>
+            <h1>About</h1>
+        </Page>
     );
 }

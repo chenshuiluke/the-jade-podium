@@ -1,8 +1,11 @@
 require('dotenv').config();
+const next = require('next');
 var express = require('express');
 var passport = require('passport');
 var Strategy = require('passport-facebook').Strategy;
 const models = require('./models/');
+const { parse } = require('url');
+const routes = require('./routes.js');
 var cors = require('cors')
 
 // Configure the Facebook strategy for use by Passport.
@@ -68,66 +71,82 @@ passport.serializeUser(function(user, cb) {
 passport.deserializeUser(function(obj, cb) {
   cb(null, obj);
 });
-
-
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+const handle = app.getRequestHandler();
+app.prepare().then(() => {
 // Create a new Express application.
-var app = express();
+  var server = express();
 
-var corsOptions = {
-  origin: process.env.WEBAPP_DOMAIN,
-  credentials: true,
-  optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
-};
+  var corsOptions = {
+    origin: process.env.WEBAPP_DOMAIN,
+    credentials: true,
+    optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
+  };
 
-app.use(cors(corsOptions));
-// Use application-level middleware for common functionality, including
-// logging, parsing, and session handling.
-app.use(require('morgan')('combined'));
-app.use(require('cookie-parser')());
-app.use(require('body-parser').urlencoded({ extended: true }));
-app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+  server.use(cors(corsOptions));
+  // Use application-level middleware for common functionality, including
+  // logging, parsing, and session handling.
+  server.use(require('morgan')('combined'));
+  server.use(require('cookie-parser')());
+  server.use(require('body-parser').urlencoded({ extended: true }));
+  server.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
 
-// Initialize Passport and restore authentication state, if any, from the
-// session.
-app.use(passport.initialize());
-app.use(passport.session());
+  // Initialize Passport and restore authentication state, if any, from the
+  // session.
+  server.use(passport.initialize());
+  server.use(passport.session());
 
 
-// Define routes.
-// app.get('/',
-//   function(req, res) {
-//     res.render('home', { user: req.user });
-//   });
+  // Define routes.
+  // server.get('/',
+  //   function(req, res) {
+  //     res.render('home', { user: req.user });
+  //   });
 
-// app.get('/login',
-//   function(req, res){
-//     res.render('login');
-//   });
-app.get('/api/user/logged-in', function(req, res){
-  var result = {
-    success: true,
-    message: "User is logged in",
-    data: {}
-  }
-  if(req.user){
+  // server.get('/login',
+  //   function(req, res){
+  //     res.render('login');
+  //   });
+  server.get('/api/user/logged-in', function(req, res){
+    var result = {
+      success: true,
+      message: "User is logged in",
+      data: {}
+    }
+    if(req.user){
+      return res.json(result);
+    }
+    result.success = false;
+    result.message = "User not logged in";
     return res.json(result);
-  }
-  result.success = false;
-  result.message = "User not logged in";
-  return res.json(result);
-});
-app.get('/login/facebook',
-  passport.authenticate('facebook', {scope : ['email'] }));
+  });
+  server.get('/login/facebook',
+    passport.authenticate('facebook', {scope : ['email'] }));
 
-app.get('/login/facebook/return', 
-  passport.authenticate('facebook', { failureRedirect: process.env.WEBAPP_DOMAIN}),
-  function(req, res) {
-    console.log("start req");
-    console.log(req);
-    console.log("end req");
-    res.redirect(process.env.WEBAPP_DOMAIN);
+  server.get('/login/facebook/return', 
+    passport.authenticate('facebook', { failureRedirect: process.env.WEBAPP_DOMAIN}),
+    function(req, res) {
+      console.log("start req");
+      console.log(req);
+      console.log("end req");
+      res.redirect(process.env.WEBAPP_DOMAIN);
+    });
+
+  server.get('*', (req, res) => {
+    const parsedUrl = parse(req.url, true);
+    const { pathname, query = {} } = parsedUrl;
+    const route = routes[pathname];
+    if (route) {
+      return app.render(req, res, route.page, query);
+    }
+    return handle(req, res);
   });
 
-app.listen(3001, function(){
-  console.log("Listening on port 3001");
+  server.listen(3000, function(){
+    console.log("Listening on port 3000");
+  });
+
+  
+
 });
