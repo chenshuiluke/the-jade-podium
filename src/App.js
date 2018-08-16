@@ -7,6 +7,7 @@ import Home from './components/Home';
 import About from './components/About';
 import Typography from 'typography';
 import funstonTheme from 'typography-theme-funston';
+import { subscribe } from 'alfa';
 //import Granim from 'react-granim';
 import logo from './assets/images/logo.png';
 import {
@@ -31,13 +32,13 @@ class App extends Component {
       response.json().then((json_response) => {
         console.log(json_response);
         if(json_response.success){
-          this.setState({logged_in: true});
+          this.props.set('logged_in', true);
           localStorage.setItem('is_logged_in', 'true');
 
         }
         else{
           localStorage.removeItem('is_logged_in');
-          this.setState({logged_in: false});
+          this.props.set('logged_in', false);
         }
       });
     });
@@ -55,4 +56,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default subscribe(App, ['set', 'logged_in'], ['logged_in']);
