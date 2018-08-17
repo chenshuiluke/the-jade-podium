@@ -4,6 +4,7 @@ import 'react-bulma-components/dist/react-bulma-components.min.css';
 import { Columns } from 'react-bulma-components';
 import NavBar from './components/NavBar';
 import Home from './components/Home';
+import CreateQuestion from './components/CreateQuestion';
 import About from './components/About';
 import Typography from 'typography';
 import funstonTheme from 'typography-theme-funston';
@@ -45,12 +46,28 @@ class App extends Component {
 
   }
   render() {
+    let backgroundStyle = {
+      background: 'linear-gradient(135deg, #c3ec52 0%,#0ba29d 100%)',
+    }
+    let contentStyle = {
+      minHeight: '90vh',
+      maxWidth: '800px', 
+      margin: '0px auto',
+      backgroundColor: 'white',
+      marginTop: '10px',
+      padding: '20px',
+      borderRadius: '3px'
+  };
+
     return (   
-      <div className="App">
+      <div className="App" style={backgroundStyle}>
         <NavBar/>
-        {/* https://tylermcginnis.com/react-router-pass-props-to-components/ */}
-        <Route exact path="/" component={() => { return <Home logged_in={this.state.logged_in}/>} }/>
-        <Route exact path="/about" component={About}/>
+        <div style={contentStyle}>
+          {/* https://tylermcginnis.com/react-router-pass-props-to-components/ */}
+          <Route exact path="/" component={() => { return <Home logged_in={this.state.logged_in}/>} }/>
+          <Route exact path="/about" component={About}/>
+          <Route exact path="/create/question" component={CreateQuestion}/>
+        </div>
       </div>
     );
   }

@@ -1,11 +1,7 @@
 import React, { Component } from 'react';
 import SocialLogin from './SocialLogin';
 import { Facebook } from 'react-content-loader'
-const bannerStyle = {
-    background: 'linear-gradient(135deg, #c3ec52 0%,#0ba29d 100%)',
-    minHeight: '90vh',
-    width: '100vw'
-};
+
 const headingStyle={
     paddingTop: '10vh',
     textAlign: 'center',
@@ -40,7 +36,7 @@ export default class Banner extends Component{
                 </div>
             );
         return(
-            <div style={bannerStyle}>
+            <div>
                 <h1 style={headingStyle}>Welcome to the JADE Podium</h1>
                 {content}
             </div>

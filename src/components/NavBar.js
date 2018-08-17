@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Navbar } from 'react-bulma-components';
+import { Navbar, Button } from 'react-bulma-components';
 import { subscribe } from 'alfa';
 import {
     Link
@@ -37,9 +37,19 @@ class NavBar extends Component{
                             Second
                         </Navbar.Item> */}
                     </Navbar.Container>
-                    {
-                        this.props.logged_in && 
-                        <Navbar.Container position="end">
+                    <Navbar.Container position="end">
+                        {this.props.logged_in && 
+                            <Navbar.Item>
+                                <Link to="/create/question" prefetch>
+                                    <Button color="success" rounded="true" outlined="true">
+                                            Ask a Question                      
+                                    </Button>
+                                </Link>    
+                            </Navbar.Item>
+                        }
+                        {
+                            this.props.logged_in && 
+                            
                             <Navbar.Item dropdown hoverable>
                                 <Navbar.Link>
                                     User
@@ -50,8 +60,9 @@ class NavBar extends Component{
                                     </Navbar.Item>
                                 </Navbar.Dropdown>
                             </Navbar.Item>
-                        </Navbar.Container>
-                    }
+                            
+                        }
+                    </Navbar.Container>
                 </Navbar.Menu>
                 </Navbar>
             </div>
